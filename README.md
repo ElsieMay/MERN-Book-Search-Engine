@@ -43,6 +43,7 @@ I was aided by the BCS Learning assistant. They instructed me well.
 I followed these links for tutorials and additional information;
 
 https://www.apollographql.com/docs/apollo-server/data/errors/
+https://dgraph.io/docs/graphql/mutations/add/
 
 ## Contact
 

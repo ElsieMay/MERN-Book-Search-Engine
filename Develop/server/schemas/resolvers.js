@@ -13,4 +13,13 @@ const resolvers = {
 			throw new AuthenticationError("You are not logged in");
 		},
 	},
+	Mutation: {
+		addThought: async (parent, args) => {
+			const user = await User.create({ args });
+			const token = signToken(user);
+			return { user, token };
+		},
+	},
 };
+// export the resolvers
+module.exports = resolvers;
