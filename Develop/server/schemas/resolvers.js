@@ -21,7 +21,7 @@ const resolvers = {
 			return { token, user };
 		},
 		login: async (parent, { email, password }) => {
-			const userData = await User.findOne({ email });
+			const user = await User.findOne({ email });
 			if (!user) {
 				throw new AuthenticationError("Can't find this user");
 			}
@@ -30,7 +30,7 @@ const resolvers = {
 				throw new AuthenticationError("Wrong password!");
 			}
 			const token = signToken(user);
-			return { userData, token };
+			return { user, token };
 		},
 		saveBook: async (parent, args, context) => {
 			if (context.user) {
