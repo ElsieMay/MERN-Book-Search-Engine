@@ -7,7 +7,7 @@ const resolvers = {
 		//finds one user by id
 		me: async (parent, args, context) => {
 			if (context.user) {
-				const userData = await User.findOne({ _id: context.user_id });
+				const userData = await User.findOne({ _id: context.user._id });
 				return userData;
 			}
 			throw new AuthenticationError("You are not logged in");
@@ -15,7 +15,8 @@ const resolvers = {
 	},
 	Mutation: {
 		addUser: async (parent, args) => {
-			const user = await User.create({ args });
+			console.log(args);
+			const user = await User.create(args);
 			const token = signToken(user);
 			return { user, token };
 		},
