@@ -44,6 +44,8 @@ I followed these links for tutorials and additional information;
 
 https://www.apollographql.com/docs/apollo-server/data/errors/
 https://dgraph.io/docs/graphql/mutations/add/
+https://www.tutorialspoint.com/graphql/graphql_mutation.htm
+https://www.w3resource.com/mongodb/mongodb-array-update-operator-$addtoset.php
 
 ## Contact
 

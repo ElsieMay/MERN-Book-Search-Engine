@@ -24,8 +24,27 @@ const resolvers = {
 			if (!user) {
 				throw new AuthenticationError("Can't find this user");
 			}
+			const correctPw = await user.isCorrectPassword(password);
+			if (!correctPw) {
+				throw new AuthenticationError("Wrong password!");
+			}
 			const token = signToken(user);
+			return { userData, token };
 		},
+	},
+	saveBook: async (parent, args, context) => {
+		if (context.user) {
+			const updatedUser = await User.findOneAndUpdate({ _id: user._id }, { $addToSet: { savedBooks: body } }, { new: true, runValidators: true });
+			return updatedUser;
+		}
+		throw new AuthenticationError("You need to be logged in");
+	},
+	deleteBook: async (parent, args, context) => {
+		if (context.user) {
+			const updatedUser = await User.findOneAndUpdate({ _id: user._id }, { $pull: { savedBooks: { bookId: params.bookId } } }, { new: true });
+			return updatedUser;
+		}
+		throw new AuthenticationError("You need to be logged in");
 	},
 };
 // export the resolvers
