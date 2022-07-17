@@ -18,4 +18,13 @@ const typeDefs = gql`
 		email: String
 		savedBooks: [Book]
 	}
+	input savedBook {
+		authors: [String]
+		bookId: String
+		description: String
+		image: String
+		forSale: String
+		link: String
+		title: String
+	}
 `;
