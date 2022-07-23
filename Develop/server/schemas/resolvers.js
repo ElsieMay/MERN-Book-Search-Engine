@@ -7,7 +7,7 @@ const resolvers = {
 		//finds one user by id
 		me: async (parent, args, context) => {
 			if (context.user) {
-				const userData = await User.findOne({ _id: context.user._id });
+				const userData = await User.findOne({ _id: context.user._id }).select("-__v -password");
 				return userData;
 			}
 			throw new AuthenticationError("You are not logged in");
@@ -30,18 +30,19 @@ const resolvers = {
 				throw new AuthenticationError("Wrong password!");
 			}
 			const token = signToken(user);
-			return { user, token };
+			return { token, user };
 		},
-		saveBook: async (parent, args, context) => {
+		saveBook: async (parent, { book }, context) => {
+			console.log(context);
 			if (context.user) {
-				const updatedUser = await User.findOneAndUpdate({ _id: user._id }, { $addToSet: { savedBooks: body } }, { new: true, runValidators: true });
+				const updatedUser = await User.findOneAndUpdate({ _id: context.user._id }, { $addToSet: { savedBooks: book } }, { new: true, runValidators: true });
 				return updatedUser;
 			}
 			throw new AuthenticationError("You need to be logged in");
 		},
-		deleteBook: async (parent, args, context) => {
+		deleteBook: async (parent, { bookId }, context) => {
 			if (context.user) {
-				const updatedUser = await User.findOneAndUpdate({ _id: user._id }, { $pull: { savedBooks: { bookId: params.bookId } } }, { new: true });
+				const updatedUser = await User.findOneAndUpdate({ _id: context.user._id }, { $pull: { savedBooks: { bookId: bookId } } }, { new: true });
 				return updatedUser;
 			}
 			throw new AuthenticationError("You need to be logged in");
