@@ -8,9 +8,9 @@ import { removeBookId } from "../utils/localStorage";
 import { useQuery, useMutation } from "@apollo/client";
 
 const SavedBooks = () => {
-	const userData = data?.me || [];
 	const { loading, data } = useQuery(GET_ME);
 	const [deleteBook] = useMutation(REMOVE_BOOK);
+	const userData = data?.me || [];
 
 	if (!userData?.username) {
 		return <h2>You need to be logged in to view this page.</h2>;
