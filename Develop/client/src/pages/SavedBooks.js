@@ -11,7 +11,7 @@ const SavedBooks = () => {
 	const { loading, data } = useQuery(GET_ME);
 	const [deleteBook] = useMutation(REMOVE_BOOK);
 	const userData = data?.me || [];
-
+	console.log(data);
 	if (!userData?.username) {
 		return <h2>You need to be logged in to view this page.</h2>;
 	}
@@ -54,10 +54,17 @@ const SavedBooks = () => {
 					{userData.savedBooks.map((book) => {
 						return (
 							<Card key={book.bookId} border="dark">
-								{book.image ? <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant="top" /> : null}
+								{/* {book.image ? <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant="top" /> : null} */}
 								<Card.Body>
 									<Card.Title>{book.title}</Card.Title>
 									<p className="small">Authors: {book.authors}</p>
+									{book.link ? (
+										<Card.Text>
+											<a href={book.link} target="_blank">
+												More Information on Google Books
+											</a>
+										</Card.Text>
+									) : null}
 									<Card.Text>{book.description}</Card.Text>
 									<Button className="btn-block btn-danger" onClick={() => handleDeleteBook(book.bookId)}>
 										Delete this Book!
