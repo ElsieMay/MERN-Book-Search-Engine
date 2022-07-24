@@ -2,7 +2,7 @@ import React from "react";
 import { Jumbotron, Container, CardColumns, Card, Button } from "react-bootstrap";
 import { GET_ME } from "../utils/queries";
 import { REMOVE_BOOK } from "../utils/mutations";
-import { getMe, deleteBook } from "../utils/API";
+// import { getMe, deleteBook } from "../utils/API";
 import Auth from "../utils/auth";
 import { removeBookId } from "../utils/localStorage";
 import { useQuery, useMutation } from "@apollo/client";
@@ -54,7 +54,7 @@ const SavedBooks = () => {
 					{userData.savedBooks.map((book) => {
 						return (
 							<Card key={book.bookId} border="dark">
-								{/* {book.image ? <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant="top" /> : null} */}
+								{book.image ? <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant="top" /> : null}
 								<Card.Body>
 									<Card.Title>{book.title}</Card.Title>
 									<p className="small">Authors: {book.authors}</p>
