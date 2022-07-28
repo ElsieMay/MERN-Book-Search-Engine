@@ -2,14 +2,14 @@ import React from "react";
 import { Jumbotron, Container, CardColumns, Card, Button } from "react-bootstrap";
 import { GET_ME } from "../utils/queries";
 import { REMOVE_BOOK } from "../utils/mutations";
-// import { getMe, deleteBook } from "../utils/API";
+import { removeBook } from "../utils/API";
 import Auth from "../utils/auth";
 import { removeBookId } from "../utils/localStorage";
 import { useQuery, useMutation } from "@apollo/client";
 
 const SavedBooks = () => {
 	const { loading, data } = useQuery(GET_ME);
-	const [deleteBook] = useMutation(REMOVE_BOOK);
+	const [removeBook] = useMutation(REMOVE_BOOK);
 	const userData = data?.me || [];
 	console.log(data);
 	if (!userData?.username) {
@@ -17,8 +17,7 @@ const SavedBooks = () => {
 	}
 
 	// create function that accepts the book's mongo _id value as param and deletes the book from the database
-	const handleDeleteBook = async (bookId) => {
-		const savedBook = SavedBooks.find((book) => book.bookId === bookId);
+	const handleRemoveBook = async (bookId) => {
 		const token = Auth.loggedIn() ? Auth.getToken() : null;
 
 		if (!token) {
@@ -26,8 +25,8 @@ const SavedBooks = () => {
 		}
 
 		try {
-			const { data } = await deleteBook({
-				variables: { savedBook },
+			const { data } = await removeBook({
+				variables: { bookId },
 			});
 			// upon success, remove book's id from localStorage
 			removeBookId(bookId);
@@ -66,7 +65,7 @@ const SavedBooks = () => {
 										</Card.Text>
 									) : null}
 									<Card.Text>{book.description}</Card.Text>
-									<Button className="btn-block btn-danger" onClick={() => handleDeleteBook(book.bookId)}>
+									<Button className="btn-block btn-danger" onClick={() => handleRemoveBook(book.bookId)}>
 										Delete this Book!
 									</Button>
 								</Card.Body>
